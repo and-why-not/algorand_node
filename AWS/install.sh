@@ -61,11 +61,8 @@ echo 'alias algo_node_status="/home/ec2-user/algorand/goal node status -d $ALGOR
 # Reload profile
 . ~/.bash_profile
 
-# Start node
-algo_node_start
-
-# Configure latest catchpoint for fast syncing
-~/algorand/goal node catchup $(wget https://algorand-catchpoints.s3.us-east-2.amazonaws.com/channel/mainnet/latest.catchpoint -q -O -)
+# Start node and configure catchpoint
+algo_node_start && ~/algorand/goal node catchup $(wget https://algorand-catchpoints.s3.us-east-2.amazonaws.com/channel/mainnet/latest.catchpoint -q -O -)
 
 # Configure update cron script
 crontab -l | { cat; echo "30 * * * * /home/ec2-user/algorand/update.sh -d $ALGORAND_DATA >/home/ec2-user/algorand/update.log 2>&1"; } | crontab -
